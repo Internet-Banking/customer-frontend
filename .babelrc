@@ -1,0 +1,27 @@
+{
+    "presets": ["es2015"],
+    "plugins": [
+      "transform-flow-strip-types",
+      "add-module-exports",
+      "syntax-async-functions",
+      "transform-regenerator",
+      "transform-function-bind",
+      "transform-object-rest-spread",
+      "transform-decorators-legacy",
+      "transform-class-properties",
+      "transform-export-extensions",
+      "syntax-flow",
+      "syntax-jsx",
+      "transform-flow-strip-types",
+      "transform-react-jsx",
+      "transform-react-display-name",
+      "transform-do-expressions",
+      "react-hot-loader/babel",
+      [
+        "babel-plugin-styled-components",
+        {
+          "ssr": false
+        }
+      ]
+    ]
+  }
