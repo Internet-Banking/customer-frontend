@@ -1,10 +1,12 @@
 import {createStore, applyMiddleware, compose} from 'redux'
 import rootReducer from './reducers'
 import DevTools from './devTools'
+import {phase} from './utils'
+import {Phases} from './constants'
 
 const enhancer = compose(
 //   // Middleware you want to use in development:
-  // applyMiddleware(d1, d2, d3),
+  applyMiddleware(phase(Phases)),
   // Required! Enable Redux DevTools with the monitors you chose
   DevTools.instrument()
 )

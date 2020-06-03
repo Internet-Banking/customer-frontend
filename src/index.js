@@ -1,17 +1,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
-import './index.css'
-import TodoApp from './views/TodoApp'
 import DevTools from './devTools'
 import * as serviceWorker from './serviceWorker'
 import configureStore from './store'
+
+// import css here
+import 'antd/dist/antd.css' // from antd
+import './index.css'
+
+// import views here
+import Layout from './components/Layout'
 
 const store = configureStore()
 
 ReactDOM.render(
   <Provider store={store}>
-    <TodoApp />
+    {/* <TodoApp /> */}
+    <Layout/>
     <DevTools/>
   </Provider>,
   document.getElementById('root')

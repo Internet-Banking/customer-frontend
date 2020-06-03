@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^4.2.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "antd": "^4.3.1",
     "classnames": "^2.2.6",
     "key-mirror": "^1.0.1",
     "react": "^16.13.1",
@@ -49,7 +51,9 @@
     "eject": "react-scripts eject",
     "lint": "eslint src"
   },
-  "pre-commit": ["lint"],
+  "pre-commit": [
+    "lint"
+  ],
   "eslintConfig": {
     "extends": "react-app"
   },
