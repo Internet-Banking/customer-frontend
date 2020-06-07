@@ -16,7 +16,11 @@ export default function phase({START, END, FAIL}) {
       if (res && typeof res.then === 'function') {
         dispatch({type: `${type}_${START}`})
         return res.then(
-          (payload) => dispatch({type: `${type}_${END}`, payload}),
+          (payload) => {
+            const {isSuccess, error} = payload
+            isSuccess ? dispatch({type: `${type}_${END}`, payload})
+              : dispatch({type: `${type}_${FAIL}`, error: true, payload: error})
+          },
           (err) => dispatch({type: `${type}_${FAIL}`, error: true, payload: err})
         )
       }
