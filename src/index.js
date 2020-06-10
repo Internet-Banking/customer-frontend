@@ -1,23 +1,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
+import {BrowserRouter, Route} from 'react-router-dom'
 import DevTools from './devTools'
 import * as serviceWorker from './serviceWorker'
 import configureStore from './store'
+import App from './App/index'
 
 // import css here
 import 'antd/dist/antd.css' // from antd
 import './index.css'
 
-// import views here
-import Layout from './components/Layout'
-
 const store = configureStore()
 
 ReactDOM.render(
   <Provider store={store}>
-    {/* <TodoApp /> */}
-    <Layout/>
+    <BrowserRouter>
+      <Route path='/' component={App}/>
+    </BrowserRouter>
     <DevTools/>
   </Provider>,
   document.getElementById('root')

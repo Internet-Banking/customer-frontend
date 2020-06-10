@@ -5,7 +5,7 @@ import {phase} from './utils'
 import {Phases} from './constants'
 
 const enhancer = compose(
-//   // Middleware you want to use in development:
+// Middleware you want to use in development:
   applyMiddleware(phase(Phases)),
   // Required! Enable Redux DevTools with the monitors you chose
   DevTools.instrument()

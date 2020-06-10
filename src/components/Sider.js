@@ -15,7 +15,8 @@ const Sider = () => {
   const [isCollapsed, setIsCollapsed] = useState(true)
 
   return (
-    <AntdSider style={{minHeight: '100%'}} collapsible collapsed={isCollapsed}
+    <AntdSider style={{minHeight: '100%', float: 'left', marginRight: '20px'}}
+      collapsible collapsed={isCollapsed}
       onCollapse={() => setIsCollapsed(!isCollapsed)}>
       <Menu theme='dark' defaultSelectedKeys={['1']} mode='inline'>
         <Menu.Item key='1' icon={<IconFont type='icon-profile'/>}>

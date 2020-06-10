@@ -1,3 +1,3 @@
-import {default as Header} from './Header'
-import {default as Sider} from './Sider'
-import {default as Layout} from './Layout'
+export {default as Header} from './Header'
+export {default as Sider} from './Sider'
+export {default as Layout} from './Layout'
