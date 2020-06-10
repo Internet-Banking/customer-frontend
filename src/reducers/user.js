@@ -6,8 +6,15 @@ const intialState = {
 }
 export default (state = intialState, {type, payload}) => {
   switch (type) {
-    // TODO: Profile view
-    // case ActionTypes.INIT_APP_END:
+    case ActionTypes.INIT_APP_END: {
+      const {token} = payload
+      return {
+        ...state,
+        // TODO: Profile view => return with info payload
+        // payload.info,
+        token
+      }
+    }
     case ActionTypes.LOGIN_END: {
       const {payload: info, token} = payload.data
       return {

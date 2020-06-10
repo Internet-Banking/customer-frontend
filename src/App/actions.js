@@ -6,7 +6,7 @@ export const initApp = () => {
   return action.create(ActionTypes.INIT_APP, async () => {
     const token = auth.getToken()
 
-    if (!token) return {isSuccess: true, undefined}
+    if (!token) return {isSuccess: true, token}
 
     const state = jwt.getTokenState(token)
     try {
@@ -17,8 +17,8 @@ export const initApp = () => {
 
       // TODO: Profile view
       // const user = await api.get({url: 'user/me', token})
-      // return {user, token}
-      return {isSuccess: true, undefined}
+      // return {isSuccess: true, user, token}
+      return {isSuccess: true, token}
     }
     catch (error) {
       auth.removeToken()

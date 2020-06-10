@@ -8,14 +8,13 @@ import {Layout} from '../components'
 
 const App = () => {
   const token = useSelector(state => state.user.token)
-  console.log('token before dispatch', token)
 
   const dispatch = useDispatch()
   useEffect(() => {
-    console.log('dispatching')
+    // Dispatch INIT_APP only once when loading a page
+    // to sync token and userInfo
     dispatch(initApp())
-  })
-  console.log('token after dispatch', token)
+  }, [])
 
   return (
     <div>
@@ -24,7 +23,7 @@ const App = () => {
 
         {/* Components were wrapped with layout */}
         <Layout>
-          <Route exact path= '/' component={Login}/>
+          <Route exact path= '/'/>
         </Layout>
       </Switch>
     </div>
