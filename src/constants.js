@@ -3,7 +3,7 @@ import {action} from './utils'
 
 const _phases = ['START', 'END', 'FAIL']
 const _actionTypes = [
-  'INIT_APP', 'LOGIN'
+  'INIT_APP', 'LOGIN', 'LOGOUT'
 ]
 
 export const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000'

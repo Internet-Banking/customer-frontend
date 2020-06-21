@@ -1,8 +1,10 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import {BankOutlined} from '@ant-design/icons'
 import {createFromIconfontCN} from '@ant-design/icons'
+import {logOut} from '../App/actions'
+import {withRouter} from 'react-router-dom'
 
 const IconFont = createFromIconfontCN({
   scriptUrl: ['//at.alicdn.com/t/font_1861426_5usavs3twno.js']
@@ -39,8 +41,13 @@ const UserPanel = styled.span`
   transform: translateY(70%);
 `
 
-const Header = () => {
-  // const userInfo = useSelector(state => state.user)
+const Header = ({history}) => {
+  const {info, token} = useSelector(state => state.user)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    !token && history.replace('/login')
+  }, [token])
 
   return (
     <Wrapper>
@@ -49,12 +56,14 @@ const Header = () => {
       </HomeIcon>
       <Title>Internet Banking 29</Title>
       <UserPanel>
-        Pham Hoang Minh
-        <IconFont style={{padding: '0 30px', fontSize: '25px', transform: 'translateY(20%)'}}
+        {info ? `Hi, ${info.name}` : ''}
+        <IconFont
+          onClick={() => dispatch(logOut())}
+          style={{padding: '0 30px', fontSize: '25px', transform: 'translateY(20%)'}}
           type='icon-logout'/>
       </UserPanel>
     </Wrapper>
   )
 }
 
-export default Header
+export default withRouter(Header)
