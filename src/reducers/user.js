@@ -1,17 +1,16 @@
 import {ActionTypes} from '../constants'
 
-const intialState = {
+const initialState = {
   info: null,
   token: null
 }
-export default (state = intialState, {type, payload}) => {
+export default (state = initialState, {type, payload}) => {
   switch (type) {
     case ActionTypes.INIT_APP_END: {
-      const {token} = payload
+      const {token, user} = payload
       return {
         ...state,
-        // TODO: Profile view => return with info payload
-        // payload.info,
+        info: user,
         token
       }
     }
@@ -22,6 +21,9 @@ export default (state = intialState, {type, payload}) => {
         info,
         token
       }
+    }
+    case ActionTypes.LOGOUT: {
+      return {...initialState}
     }
     default:
       return state

@@ -11,18 +11,23 @@ export const initApp = () => {
     const state = jwt.getTokenState(token)
     try {
       if (state === TOKEN_STATE.INVALID || state === TOKEN_STATE.EXPIRED) {
-        // auth.removeToken()
+        auth.removeToken()
         return {isSuccess: false, error: {message: `Token is ${state.toLowercase()}`}}
       }
 
-      // TODO: Profile view
-      // const user = await api.get({url: 'user/me', token})
-      // return {isSuccess: true, user, token}
-      return {isSuccess: true, token}
+      const {isSuccess, data: {payload: user, message}} = await api.get('user/me', undefined, token)
+      if (!isSuccess) throw new Error(message)
+      return {isSuccess, user, token}
     }
     catch (error) {
       auth.removeToken()
-      return {isSuccess: false, error: {message: 'Failed to fetch'}}
+      return {isSuccess: false, error: {message: error.message}}
     }
+  })
+}
+
+export const logOut = () => {
+  return action.create(ActionTypes.LOGOUT, () => {
+    auth.removeToken()
   })
 }
