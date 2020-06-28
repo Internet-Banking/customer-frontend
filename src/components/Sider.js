@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {Layout, Menu} from 'antd'
 import {createFromIconfontCN} from '@ant-design/icons'
+import {Link} from 'react-router-dom'
 
 const IconFont = createFromIconfontCN({
   scriptUrl: [
@@ -20,7 +21,7 @@ const Sider = () => {
       onCollapse={() => setIsCollapsed(!isCollapsed)}>
       <Menu theme='dark' defaultSelectedKeys={['1']} mode='inline'>
         <Menu.Item key='1' icon={<IconFont type='icon-profile'/>}>
-          Profile
+          <Link to='/'>Profile</Link>
         </Menu.Item>
         <Menu.Item key='2' icon={<IconFont type='icon-payment'/>}>
           Account List

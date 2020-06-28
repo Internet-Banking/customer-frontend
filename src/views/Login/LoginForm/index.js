@@ -4,13 +4,24 @@ import {useDispatch, useSelector} from 'react-redux'
 import {Form, Input, Button, Checkbox, message} from 'antd'
 import {UserOutlined, LockOutlined} from '@ant-design/icons'
 import ReCAPTCHA from 'react-google-recaptcha'
+import styled from 'styled-components'
 import {GOOGLE_RECAPTCHA_CLIENT_KEY} from '../../../constants'
 import {submitLogin} from './actions'
+import ForgotPassword from '../ForgotPassword'
+
+const Span = styled.span`
+  color: #1890ff;
+  :hover {
+    cursor:pointer;
+    color: #40a9ff;
+  }
+`
 
 const LoginForm = ({history}) => {
   const error = useSelector(state => state.error)
   const token = useSelector(state => state.user.token)
   const [recaptchaToken, setRecaptcha] = useState(null)
+  const [isForgotPassword, setIsForgotPassword] = useState(false)
 
   const dispatch = useDispatch()
   const onFinish = values => {
@@ -25,10 +36,17 @@ const LoginForm = ({history}) => {
     token && history.replace('/')
   }, [token])
 
-  // Handle message when error happens
   useEffect(() => {
     error && message.error(error)
-  }, [error])
+  }, [error, isForgotPassword])
+
+  if (isForgotPassword) {
+    return (
+      <ForgotPassword
+        setIsVisible={setIsForgotPassword}
+      />
+    )
+  }
 
   return (
     <Form
@@ -77,9 +95,10 @@ const LoginForm = ({history}) => {
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
-        <Link style={{margin: '0 10px'}} className='login-form-forgot' to='/user/forgot'>
+        <Span style={{margin: '0 10px'}} className='login-form-forgot'
+          onClick={() => setIsForgotPassword(true)}>
           Forgot password
-        </Link>
+        </Span>
       </Form.Item>
 
       <Form.Item>

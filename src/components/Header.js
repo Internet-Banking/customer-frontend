@@ -1,10 +1,9 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import {useSelector, useDispatch} from 'react-redux'
 import {BankOutlined} from '@ant-design/icons'
 import {createFromIconfontCN} from '@ant-design/icons'
 import {logOut} from '../App/actions'
-import {withRouter} from 'react-router-dom'
 
 const IconFont = createFromIconfontCN({
   scriptUrl: ['//at.alicdn.com/t/font_1861426_5usavs3twno.js']
@@ -34,20 +33,15 @@ const HomeIcon = styled.div`
 `
 
 const UserPanel = styled.span`
-  width: 30vh;
   position: absolute;
   top: 0;
   right: 0;
   transform: translateY(70%);
 `
 
-const Header = ({history}) => {
-  const {info, token} = useSelector(state => state.user)
+const Header = () => {
+  const {info} = useSelector(state => state.user)
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    !token && history.replace('/login')
-  }, [token])
 
   return (
     <Wrapper>
@@ -66,4 +60,4 @@ const Header = ({history}) => {
   )
 }
 
-export default withRouter(Header)
+export default Header
