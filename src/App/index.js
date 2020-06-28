@@ -1,13 +1,15 @@
 import React, {useEffect} from 'react'
-import {Switch, Route} from 'react-router-dom'
+import {Switch, Route, Redirect} from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux'
 import {initApp} from './actions'
+import {auth} from '../services'
 
 import Login from '../views/Login'
+import Profile from '../views/Profile'
 import {Layout} from '../components'
 
 const App = () => {
-  const token = useSelector(state => state.user.token)
+  const token = useSelector(state => state.user.token) || auth.getToken()
 
   const dispatch = useDispatch()
   useEffect(() => {
@@ -19,11 +21,15 @@ const App = () => {
   return (
     <div>
       <Switch>
-        <Route exact path= '/login' component={Login}/>
+        <Route
+          exact path= '/login'
+          render={() => (!token ? <Login/> : <Redirect to='/' />)}/>/>
 
-        {/* Components were wrapped with layout */}
         <Layout>
-          <Route exact path= '/'/>
+          {/* Components were wrapped with layout */}
+          <Route
+            path= '/'
+            render={() => (token ? <Profile/> : <Redirect to='/login' />)}/>
         </Layout>
       </Switch>
     </div>
