@@ -3,7 +3,8 @@ import {Switch, Route, Redirect} from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux'
 import {initApp} from './actions'
 import {auth} from '../services'
-
+import ErrorPage from '../views/ErrorPage'
+import AccountListPage from '../views/AccountList'
 import Login from '../views/Login'
 import Profile from '../views/Profile'
 import {Layout} from '../components'
@@ -19,20 +20,22 @@ const App = () => {
   }, [])
 
   return (
-    <div>
-      <Switch>
+    <Switch>
+      <Route
+        exact path= '/'
+        render={() => token ? <Redirect to='/profile' /> : <Login/>}/>
+      <Layout>
+        {/* Components were wrapped with layout */}
         <Route
-          exact path= '/login'
-          render={() => (!token ? <Login/> : <Redirect to='/' />)}/>/>
-
-        <Layout>
-          {/* Components were wrapped with layout */}
-          <Route
-            path= '/'
-            render={() => (token ? <Profile/> : <Redirect to='/login' />)}/>
-        </Layout>
-      </Switch>
-    </div>
+          path= '/profile'
+          render={() => (token ? <Profile/> : <Redirect to='/' />)}/>
+        <Route
+          path= '/account'
+          render={() => (token ? <AccountListPage/> : <Redirect to='/' />)}/>
+      </Layout>
+      <Route path='/404' component={ErrorPage} />
+      <Redirect from='*' to='/404' />
+    </Switch>
   )
 }
 

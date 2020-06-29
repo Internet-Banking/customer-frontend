@@ -12,7 +12,7 @@ export const initApp = () => {
     try {
       if (state === TOKEN_STATE.INVALID || state === TOKEN_STATE.EXPIRED) {
         auth.removeToken()
-        return {isSuccess: false, error: {message: `Token is ${state.toLowercase()}`}}
+        return {isSuccess: false, error: {message: `Token is ${state.toLowerCase()}`}}
       }
 
       const {isSuccess, data: {payload: user, message}} = await api.get('user/me', undefined, token)

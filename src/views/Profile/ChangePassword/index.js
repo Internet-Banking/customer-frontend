@@ -38,7 +38,9 @@ const ChangePassword = ({isModalVisible, setIsModalVisible}) => {
           .then(values => {
             onChangePassword(values)
           })
-          .catch(info => {})
+          .catch((info) => {
+            message.error(info.message)
+          })
       }}
     >
       <Form form={form}>
