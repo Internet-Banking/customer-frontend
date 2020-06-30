@@ -5,6 +5,7 @@ import {initApp} from './actions'
 import {auth} from '../services'
 import ErrorPage from '../views/ErrorPage'
 import AccountListPage from '../views/AccountList'
+import RecipientAccountListPage from '../views/RecipientAccountList'
 import Login from '../views/Login'
 import Profile from '../views/Profile'
 import {Layout} from '../components'
@@ -32,6 +33,9 @@ const App = () => {
         <Route
           path= '/account'
           render={() => (token ? <AccountListPage/> : <Redirect to='/' />)}/>
+        <Route
+          path= '/recipient_account'
+          render={() => (token ? <RecipientAccountListPage/> : <Redirect to='/' />)}/>
       </Layout>
       <Route path='/404' component={ErrorPage} />
       <Redirect from='*' to='/404' />

@@ -26,11 +26,8 @@ const Sider = () => {
         <Menu.Item key='2' icon={<UnorderedListOutlined />}>
           <Link to='/account'>Account List</Link>
         </Menu.Item>
-        <Menu.Item key='3' icon={<IconFont type='icon-transaction'/>}>
-          Transaction
-        </Menu.Item>
         <Menu.Item key='4' icon={<IconFont type='icon-receiver'/>}>
-          Receiver List
+          <Link to='/recipient_account'>Recipient Account List</Link>
         </Menu.Item>
         <SubMenu key='sub1' icon={<IconFont type='icon-transfer'/>} title='Transfer'>
           <Menu.Item key='5'>Intra Bank</Menu.Item>
