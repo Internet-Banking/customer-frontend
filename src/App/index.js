@@ -9,6 +9,7 @@ import RecipientAccountListPage from '../views/RecipientAccountList'
 import Login from '../views/Login'
 import Profile from '../views/Profile'
 import {Layout} from '../components'
+import InnerTransactionPage from '../views/Transaction/Inner'
 
 const App = () => {
   const token = useSelector(state => state.user.token) || auth.getToken()
@@ -36,6 +37,9 @@ const App = () => {
         <Route
           path= '/recipient_account'
           render={() => (token ? <RecipientAccountListPage/> : <Redirect to='/' />)}/>
+        <Route
+          path= '/inner_transaction/create'
+          render={() => (token ? <InnerTransactionPage/> : <Redirect to='/' />)}/>
       </Layout>
       <Route path='/404' component={ErrorPage} />
       <Redirect from='*' to='/404' />

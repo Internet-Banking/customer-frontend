@@ -29,9 +29,13 @@ const Sider = () => {
         <Menu.Item key='4' icon={<IconFont type='icon-receiver'/>}>
           <Link to='/recipient_account'>Recipient Account List</Link>
         </Menu.Item>
-        <SubMenu key='sub1' icon={<IconFont type='icon-transfer'/>} title='Transfer'>
-          <Menu.Item key='5'>Intra Bank</Menu.Item>
-          <Menu.Item key='6'>Inter Bank</Menu.Item>
+        <SubMenu key='sub1' icon={<IconFont type='icon-transfer'/>} title='Create transaction'>
+          <Menu.Item key='5'>
+            <Link to='/inner_transaction/create'>Inner transaction</Link>
+          </Menu.Item>
+          <Menu.Item key='6'>
+            <Link to='/outer_transaction/create'>Outer transaction</Link>
+          </Menu.Item>
         </SubMenu>
         <SubMenu key='sub2' icon={<IconFont type='icon-Notes'/>} title='Debt Reminder'>
           <Menu.Item key='7'>Create</Menu.Item>
