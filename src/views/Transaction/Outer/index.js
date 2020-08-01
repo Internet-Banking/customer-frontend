@@ -4,7 +4,8 @@ import {Button, Form, Input, Select, message, Radio, Checkbox} from 'antd'
 import styled from 'styled-components'
 import {api} from '../../../services'
 import keyMirror from 'key-mirror'
-import ReceivingAccountInfoModal from './ReceivingAccountInfoModal'
+import OuterReceivingAccountInfoModal from './OuterReceivingAccountInfoModal'
+import {PARTNER_BANK_NAMES} from '../../../constants'
 
 const Wrapper = styled.div`
   justify-content: center;
@@ -21,7 +22,7 @@ const SELECT_REC_ACC_MODE = keyMirror({
   NEW: null
 })
 
-const InnerTransactionPage = () => {
+const OuterTransactionPage = () => {
   const token = useSelector(state => state.user.token)
   const [amount, setAmount] = React.useState(0)
   const [accountList, setAccountList] = React.useState(null)
@@ -31,6 +32,7 @@ const InnerTransactionPage = () => {
   const [receivingAccountInfo, setReceivingAccountInfo] = React.useState(null)
   const [modalVisibility, setModalVisibility] = React.useState(false)
   const [doesSaveNewRecAcc, setDoesSaveNewRecAcc] = React.useState(true)
+  const [bank, setBank] = React.useState(PARTNER_BANK_NAMES.RSA)
 
   React.useEffect(() => {
     const getData = async () => {
@@ -38,13 +40,15 @@ const InnerTransactionPage = () => {
       if (resultGetAccList.isSuccess) {
         setAccountList(resultGetAccList.data.payload)
       }
-      const resultGetRecAccList = await api.get('user/recipient_account', undefined, token)
+      const resultGetRecAccList = bank === PARTNER_BANK_NAMES.RSA
+        ? await api.get('user/outer_recipient_account/rsa', undefined, token)
+        : await api.get('user/outer_recipient_account/pgp', undefined, token)
       if (resultGetRecAccList.isSuccess) {
         setRecAccList(resultGetRecAccList.data.payload)
       }
     }
     getData()
-  }, [token, setAccountList])
+  }, [token, setAccountList, bank])
 
   const generateOTP = async () => {
     const result = await api.post('user/otp', undefined, token)
@@ -57,14 +61,20 @@ const InnerTransactionPage = () => {
   }
 
   const handleSubmit = async (values) => {
-    const result = await api.post('transaction/inner', values, token)
+    const result = bank === PARTNER_BANK_NAMES.RSA
+      ? await api.post('transaction/outer/rsa', values, token)
+      : await api.post('transaction/outer/pgp', values, token)
     if (result.isSuccess) {
       message.success('Transaction was made successfully!')
       if (selectRecAccMode === SELECT_REC_ACC_MODE.NEW && doesSaveNewRecAcc === true) {
         // eslint-disable-next-line max-len
-        const resultCreateRecipientAcc = await api.post('user/recipient_account', {accountId: receivingAccountId}, token)
+        const resultCreateRecipientAcc = await api.post(
+          'user/outer_recipient_account',
+          {accountId: receivingAccountId, bankName: bank},
+          token
+        )
         if (resultCreateRecipientAcc.isSuccess) {
-          message.success('This recipient account was saved!')
+          message.success('This outer recipient account was saved!')
         }
         else {
           message.error(resultCreateRecipientAcc.error.message)
@@ -91,9 +101,11 @@ const InnerTransactionPage = () => {
   const onRecAccButtonClick = async () => {
     if (receivingAccountId) {
       // eslint-disable-next-line max-len
-      const result = await api.get(`account/${receivingAccountId}/include-user-info`, undefined, token)
+      const result = bank === PARTNER_BANK_NAMES.RSA
+        ? await api.get(`partner/rsa/account/${receivingAccountId}`, undefined, token)
+        : await api.get(`partner/pgp/account/${receivingAccountId}`, undefined, token)
       if (result.isSuccess) {
-        setReceivingAccountInfo(result.data.payload)
+        setReceivingAccountInfo({...result.data.payload, receivingAccountId})
         setModalVisibility(true)
       }
       else {
@@ -103,6 +115,10 @@ const InnerTransactionPage = () => {
     else {
       message.error('Please enter receiving account ID!')
     }
+  }
+
+  const onSelectBank = (e) => {
+    setBank(e.target.value)
   }
 
   const cancelModal = () => {
@@ -138,7 +154,9 @@ const InnerTransactionPage = () => {
         <h1>
           Receiver information&nbsp;&nbsp;&nbsp;
           <Radio.Group onChange={onRadioChange} value={selectRecAccMode}>
-            <Radio value={SELECT_REC_ACC_MODE.FROM_LIST}>Choose from recipient account list</Radio>
+            <Radio value={SELECT_REC_ACC_MODE.FROM_LIST}>
+              Choose from outer recipient account list
+            </Radio>
             <Radio value={SELECT_REC_ACC_MODE.NEW}>Enter new account ID</Radio>
           </Radio.Group>
           <Button type='primary' onClick={onRecAccButtonClick}>
@@ -146,6 +164,12 @@ const InnerTransactionPage = () => {
           </Button>
         </h1>
         <br />
+        <Form.Item label='Select partner bank: '>
+          <Radio.Group onChange={onSelectBank} value={bank}>
+            <Radio value={PARTNER_BANK_NAMES.RSA}>{PARTNER_BANK_NAMES.RSA}</Radio>
+            <Radio value={PARTNER_BANK_NAMES.PGP}>{PARTNER_BANK_NAMES.PGP}</Radio>
+          </Radio.Group>
+        </Form.Item>
         {selectRecAccMode === SELECT_REC_ACC_MODE.FROM_LIST
           ? <Form.Item
             label={'Select reveiver\'s account ID: '}
@@ -162,27 +186,29 @@ const InnerTransactionPage = () => {
                 ? recAccList.map((recAcc, index) => {
                   return (
                     <Select.Option key={index} value={recAcc.accountId}>
-                      {recAcc.accountId}
+                      {`${recAcc.accountId} - ${recAcc.bankName}`}
                     </Select.Option>
                   )
                 }) : null}
             </Select>
           </Form.Item>
-          : <Form.Item
-            label={'Enter reveiver\'s account ID: '}
-            name='receivingAccountId'
-            rules={[
-              {
-                required: true,
-                message: 'Please enter receiving account ID!'
-              }
-            ]}>
-            <Input
-              type='number'
-              onChange={onRecAccInputChange}
-              placeholder='Receiving account ID'
-            />
-          </Form.Item>
+          : <>
+            <Form.Item
+              label={'Enter reveiver\'s account ID: '}
+              name='receivingAccountId'
+              rules={[
+                {
+                  required: true,
+                  message: 'Please enter receiving account ID!'
+                }
+              ]}>
+              <Input
+                type='number'
+                onChange={onRecAccInputChange}
+                placeholder='Receiving account ID'
+              />
+            </Form.Item>
+          </>
         }
         {selectRecAccMode === SELECT_REC_ACC_MODE.NEW
           ? <Form.Item label='Save this account for next transaction: '>
@@ -271,7 +297,8 @@ const InnerTransactionPage = () => {
         </Form.Item>
       </Form>
       {receivingAccountInfo
-        ? <ReceivingAccountInfoModal
+        ? <OuterReceivingAccountInfoModal
+          bank={bank}
           visible={modalVisibility}
           accountInfo={receivingAccountInfo}
           handleCancel={cancelModal}
@@ -281,4 +308,4 @@ const InnerTransactionPage = () => {
   )
 }
 
-export default InnerTransactionPage
+export default OuterTransactionPage

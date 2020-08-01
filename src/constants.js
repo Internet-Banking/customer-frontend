@@ -22,11 +22,7 @@ export const TOKEN_STATE = keyMirror({
   ALIVE: null
 })
 
-export const ADD_TODO = 'ADD_TODO'
-export const TOGGLE_TODO = 'TOGGLE_TODO'
-export const SET_FILTER = 'SET_FILTER'
-export const VISIBILITY_FILTERS = {
-  ALL: 'all',
-  COMPLETED: 'completed',
-  INCOMPLETE: 'incomplete'
+export const PARTNER_BANK_NAMES = {
+  RSA: 'Sacombank',
+  PGP: 'Nhom28Bank'
 }

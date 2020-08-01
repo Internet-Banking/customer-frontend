@@ -10,6 +10,7 @@ import Login from '../views/Login'
 import Profile from '../views/Profile'
 import {Layout} from '../components'
 import InnerTransactionPage from '../views/Transaction/Inner'
+import OuterTransactionPage from '../views/Transaction/Outer'
 
 const App = () => {
   const token = useSelector(state => state.user.token) || auth.getToken()
@@ -40,6 +41,9 @@ const App = () => {
         <Route
           path= '/inner_transaction/create'
           render={() => (token ? <InnerTransactionPage/> : <Redirect to='/' />)}/>
+        <Route
+          path= '/outer_transaction/create'
+          render={() => (token ? <OuterTransactionPage/> : <Redirect to='/' />)}/>
       </Layout>
       <Route path='/404' component={ErrorPage} />
       <Redirect from='*' to='/404' />
