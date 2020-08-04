@@ -1,18 +1,22 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
-import {Table} from 'antd'
+import {Table, Row, Breadcrumb} from 'antd'
 import styled from 'styled-components'
 import {api} from '../../services'
 import moment from 'moment'
+import {Link} from 'react-router-dom'
 
-const Wrapper = styled.main`
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  align-items: center;
-  margin-left: 70px;
-  position: absolute;
-  z-index: 1000;
+// const Wrapper = styled.main`
+//   display: flex;
+//   justify-content: flex-start;
+//   flex-direction: column;
+//   align-items: center;
+//   margin-left: 70px;
+//   position: absolute;
+//   z-index: 1000;
+// `
+const Wrapper = styled.div`
+  padding: 15px;
 `
 
 const AccountListPage = () => {
@@ -56,7 +60,15 @@ const AccountListPage = () => {
 
   return (
     <Wrapper>
-      <Table dataSource={data} pagination={false} columns={columns} />
+      <Breadcrumb>
+        <Breadcrumb.Item>Home</Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to='/account'>Account List</Link>
+        </Breadcrumb.Item>
+      </Breadcrumb>
+      <Row>
+        <Table dataSource={data} pagination={false} columns={columns} />
+      </Row>
     </Wrapper>
   )
 }

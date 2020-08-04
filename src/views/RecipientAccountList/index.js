@@ -1,6 +1,7 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
-import {Table, Button, message} from 'antd'
+import {Table, Button, message, Row, Breadcrumb} from 'antd'
+import {Link} from 'react-router-dom'
 import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons'
 import styled from 'styled-components'
 import {api} from '../../services'
@@ -12,14 +13,18 @@ const MODAL_MODE = keyMirror({
   EDIT: null
 })
 
-const Wrapper = styled.main`
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  align-items: center;
-  margin-left: 70px;
-  position: absolute;
-  z-index: 1000;
+// const Wrapper = styled.main`
+//   display: flex;
+//   justify-content: flex-start;
+//   flex-direction: column;
+//   align-items: center;
+//   margin-left: 70px;
+//   position: absolute;
+//   z-index: 1000;
+// `
+
+const Wrapper = styled.div`
+  padding: 15px;
 `
 
 const RecipientAccountListPage = () => {
@@ -143,18 +148,29 @@ const RecipientAccountListPage = () => {
   ]
 
   return (
-    <Wrapper><br/>
-      <Button onClick={() => openCreateModal()} icon={<PlusOutlined />} type='primary'>
-        Create recipient account
-      </Button>
-      <br/>
-      <Table dataSource={data} pagination={false} columns={columns} />
-      <RecipientAccountModal
-        visible={visible}
-        handleCancel={closeModal}
-        handleSubmit={submitModal}
-        modalMode={modalMode}
-      />
+    <Wrapper>
+      <Breadcrumb>
+        <Breadcrumb.Item>Home</Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to='/recipient_account'>Recepient Account List</Link>
+        </Breadcrumb.Item>
+      </Breadcrumb>
+      <Row>
+        <br/>
+        <Button onClick={() => openCreateModal()} icon={<PlusOutlined />} type='primary'>
+            Create recipient account
+        </Button>
+        <br/>
+      </Row>
+      <Row>
+        <Table dataSource={data} pagination={false} columns={columns} />
+        <RecipientAccountModal
+          visible={visible}
+          handleCancel={closeModal}
+          handleSubmit={submitModal}
+          modalMode={modalMode}
+        />
+      </Row>
     </Wrapper>
   )
 }
