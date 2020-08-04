@@ -16,7 +16,7 @@ const Sider = () => {
   const [isCollapsed, setIsCollapsed] = useState(true)
 
   return (
-    <AntdSider style={{minHeight: '100%', float: 'left', marginRight: '20px'}}
+    <AntdSider style={{minHeight: '110%', float: 'left', marginRight: '20px'}}
       collapsible collapsed={isCollapsed}
       onCollapse={() => setIsCollapsed(!isCollapsed)}>
       <Menu theme='dark' defaultSelectedKeys={['1']} mode='inline'>
@@ -29,13 +29,29 @@ const Sider = () => {
         <Menu.Item key='4' icon={<IconFont type='icon-receiver'/>}>
           <Link to='/recipient_account'>Recipient Account List</Link>
         </Menu.Item>
-        <SubMenu key='sub1' icon={<IconFont type='icon-transfer'/>} title='Create transaction'>
-          <Menu.Item key='5'>
-            <Link to='/inner_transaction/create'>Inner transaction</Link>
-          </Menu.Item>
-          <Menu.Item key='6'>
-            <Link to='/outer_transaction/create'>Outer transaction</Link>
-          </Menu.Item>
+        <SubMenu key='sub1' icon={<IconFont type='icon-transfer'/>} title='Transaction'>
+          <SubMenu key='sub3' title='Inner Transaction'>
+            <Menu.Item key='5'>
+              <Link to='/inner_transaction/create'>Create</Link>
+            </Menu.Item>
+            <Menu.Item key='6'>
+              <Link to='/inner_transaction/receiving_history'>Receiving History</Link>
+            </Menu.Item>
+            <Menu.Item key='7'>
+              <Link to='/inner_transaction/sending_history'>Sending History</Link>
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu key='sub4' title='Outer Transaction'>
+            <Menu.Item key='8'>
+              <Link to='/outer_transaction/create'>Create</Link>
+            </Menu.Item>
+            <Menu.Item key='9'>
+              <Link to='/outer_transaction/receiving_history'>Receiving History</Link>
+            </Menu.Item>
+            <Menu.Item key='10'>
+              <Link to='/outer_transaction/sending_history'>Sending History</Link>
+            </Menu.Item>
+          </SubMenu>
         </SubMenu>
         <SubMenu key='sub2' icon={<IconFont type='icon-Notes'/>} title='Debt Reminder'>
           <Menu.Item key='7'>Create</Menu.Item>
