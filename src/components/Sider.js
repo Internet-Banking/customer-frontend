@@ -54,10 +54,16 @@ const Sider = () => {
           </SubMenu>
         </SubMenu>
         <SubMenu key='sub2' icon={<IconFont type='icon-Notes'/>} title='Debt Reminder'>
-          <Menu.Item key='7'>Create</Menu.Item>
-          <Menu.Item key='8'>Dept List</Menu.Item>
+          <Menu.Item key='11'>
+            <Link to='/debt_reminder/create'>Create Debt Reminder</Link>
+          </Menu.Item>
+          <Menu.Item key='12'>
+            <Link to='/debt_reminder/receiving_history'>Receiving History</Link>
+          </Menu.Item>
+          <Menu.Item key='13'>
+            <Link to='/debt_reminder/sending_history'>Sending History</Link>
+          </Menu.Item>
         </SubMenu>
-      
       </Menu>
     </AntdSider>
   )

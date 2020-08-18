@@ -15,6 +15,9 @@ import OuterSendingHistory from '../views/Transaction/Outer/SendingHistory'
 import {Layout} from '../components'
 import InnerTransactionPage from '../views/Transaction/Inner'
 import OuterTransactionPage from '../views/Transaction/Outer'
+import DebtReminderPage from '../views/DebtReminder'
+import DebtReminderReceivingHistory from '../views/DebtReminder/ReceivingHistory'
+import DebtReminderSendingHistory from '../views/DebtReminder/SendingHistory'
 
 const App = () => {
   const token = useSelector(state => state.user.token) || auth.getToken()
@@ -60,6 +63,15 @@ const App = () => {
         <Route
           path= '/outer_transaction/sending_history'
           render={() => (token ? <OuterSendingHistory/> : <Redirect to='/' />)}/>
+        <Route
+          path= '/debt_reminder/create'
+          render={() => (token ? <DebtReminderPage/> : <Redirect to='/' />)}/>
+        <Route
+          path= '/debt_reminder/receiving_history'
+          render={() => (token ? <DebtReminderReceivingHistory/> : <Redirect to='/' />)}/>
+        <Route
+          path= '/debt_reminder/sending_history'
+          render={() => (token ? <DebtReminderSendingHistory/> : <Redirect to='/' />)}/>
       </Layout>
       <Route path='/404' component={ErrorPage} />
       <Redirect from='*' to='/404' />
