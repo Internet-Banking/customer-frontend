@@ -1,7 +1,7 @@
 import moment from 'moment'
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
-import {Breadcrumb, Row, Table} from 'antd'
+import {Breadcrumb, Row, Table, Tag} from 'antd'
 import {Link} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {api} from '../../../../services'
@@ -45,7 +45,23 @@ const SendingHistory = () => {
       title: 'Fee Payer',
       dataIndex: 'feePayer',
       key: 'feePayer',
-      align: 'center'
+      align: 'center',
+      render: (feePayer) => {
+        if (feePayer === 'SENDER') {
+          return (
+            <Tag color='green'>
+              SENDER
+            </Tag>
+          )
+        }
+        else {
+          return (
+            <Tag color='blue'>
+              RECEIVER
+            </Tag>
+          )
+        }
+      }
     },
     {
       title: 'Created At',
